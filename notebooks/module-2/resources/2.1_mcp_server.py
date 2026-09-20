@@ -16,14 +16,14 @@ tavily_client = TavilyClient()
 # Tool for searching the web
 @mcp.tool()
 def search_web(query: str) -> Dict[str, Any]:
-    """Search the web for information"""
+    """Search the web for information. Pass simple string, DO NOT PASS DICT OR OBJECT."""
 
     results = tavily_client.search(query)
 
     return results
 
 
-# Resources - provide access to langchain-ai repo files
+# Resources - provide access to langchain-ai repo files to user / llm
 @mcp.resource("github://langchain-ai/langchain-mcp-adapters/main/README.md")
 def github_file():
     """
@@ -38,7 +38,7 @@ def github_file():
         return f"Error: {str(e)}"
 
 
-# Prompt template
+# Prompt template - these help users interact with the chat be providing pre-defined prompts and instructions
 @mcp.prompt()
 def prompt():
     """Analyze data from a langchain-ai repo file with comprehensive insights"""

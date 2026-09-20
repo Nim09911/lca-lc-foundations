@@ -11,9 +11,9 @@ tavily_client = TavilyClient()
 @tool
 def web_search(query: str) -> Dict[str, Any]:
 
-    """Search the web for information"""
+    """Search the web for information. Takes simple string input and return a dictionary of results. DO NOT INPUT A DICTIONARY OF OBJECT."""
 
-    return tavily_client.search(query)
+    return tavily_client.search(query=query)    
 
 system_prompt = """
 
@@ -24,11 +24,13 @@ Using the web search tool, search the web for recipes that can be made with the 
 Return recipe suggestions and eventually the recipe instructions to the user, if requested.
 
 """
-
+from langchain_ollama import ChatOllama
 from langchain.agents import create_agent
 
+llm = ChatOllama(model="llama3.2", temperature=0.3)
+
 agent = create_agent(
-    model="gpt-5-nano",
+    model=llm,
     tools=[web_search],
     system_prompt=system_prompt
 )
